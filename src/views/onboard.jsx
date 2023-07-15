@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
+import backgroundImage from '../assets/intro.jpg'; // Update the import path based on your folder structure
+
 
 const OnboardingPage = () => {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // Perform any necessary logic with the form data
     // For example, you can send the data to an API, store it in state, etc.
     console.log(`Name: ${name}`);
-    console.log(`Email: ${email}`);
-    console.log(`Password: ${password}`);
   };
 
   return (
@@ -27,30 +25,6 @@ const OnboardingPage = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block font-medium">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block font-medium">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
