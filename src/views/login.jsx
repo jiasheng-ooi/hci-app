@@ -2,12 +2,19 @@ import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@mantine/core';
 import backgroundImage from '../assets/login.jpg'; // Update the import path based on your folder structure
+import { Link, useNavigate } from 'react-router-dom';
+
+
 
 const LoginPage = () => {
   const handleGoogleLogin = () => {
     // Perform login with Google logic here
     console.log('Login with Google');
+    navigate('/onboard');  
+
   };
+
+  const navigate = useNavigate();
 
   return (
     <div

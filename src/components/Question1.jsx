@@ -31,7 +31,7 @@ const Question1 = ({ onNextClick }) => {
       {/* Content for Question 1 */}
       <div className="font-bold ml-20 mt-16 text-left flex flex-col">
         <span className="text-blue-700 text-3xl mb-10">Question 1</span>
-        <span className='text-gray-800 text-5xl font-bold mb-10'>Rank these factors when searching for a parking lot.</span>
+        <span className='text-gray-800 text-5xl font-bold mb-10 w-9/12'>Rank these factors when searching for a parking lot.</span>
       </div>
       <div>
   <div className="ml-20 text-slate-500 font-bold text-2xl mb-3">Price</div>
