@@ -18,7 +18,7 @@ const LoginPage = () => {
       }}
     >
       <div className="text-center flex flex-col items-center">
-        <h1 className="text-4xl font-bold mb-6 text-white">ParkFinder.</h1>
+        <h1 className="text-5xl font-bold mb-6 text-white">ParkFinder.</h1>
         <Button
           className="w-72 h-16 bg-white text-teal-950 text-xl font-semibold rounded-full text-lg flex items-center justify-center transform transition-transform hover:scale-110 hover: border-2 border-black"
           onClick={handleGoogleLogin}
