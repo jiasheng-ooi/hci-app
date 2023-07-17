@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 const Question2 = ({ onNextClick }) => {
+  const navigate = useNavigate();
     const handleFormSubmit = () => {
         // Perform any necessary logic with the form data for question 1
-        onNextClick(); // Proceed to the next question
+        navigate('/parkfinder'); // Proceed to the next question
       };
     
     const [activeButtons, setActiveButtons] = useState([]);
