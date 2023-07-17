@@ -1,23 +1,32 @@
 import React from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { Button } from '@mantine/core';
+import backgroundImage from '../assets/login.jpg'; // Update the import path based on your folder structure
 
 const LoginPage = () => {
-  const handleLogin = () => {
-    // Perform any necessary logic before redirecting to Google login
-    // For example, you can validate user credentials, initiate an API call, etc.
-
-    // Redirect the user to Google login
-   
+  const handleGoogleLogin = () => {
+    // Perform login with Google logic here
+    console.log('Login with Google');
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-6">Login Page</h1>
-      <button
-        className="px-8 py-3 bg-blue-500 text-white rounded-md font-semibold text-lg hover:bg-blue-600"
-        onClick={handleLogin}
-      >
-        Login with Google
-      </button>
+    <div
+      className="min-h-screen w-screen flex justify-center items-center bg-cover"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        height: 1280,
+      }}
+    >
+      <div className="text-center flex flex-col items-center">
+        <h1 className="text-5xl font-bold mb-6 text-white">ParkFinder.</h1>
+        <Button
+          className="w-72 h-16 bg-white text-teal-950 text-xl font-semibold rounded-full text-lg flex items-center justify-center transform transition-transform hover:scale-110 hover: border-2 border-black"
+          onClick={handleGoogleLogin}
+        >
+          <FcGoogle className="mr-3 text-3xl" />
+          Log In with Google
+        </Button>
+      </div>
     </div>
   );
 };
