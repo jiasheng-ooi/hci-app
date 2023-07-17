@@ -10,8 +10,12 @@ const OnboardingContent = () => {
     if (currentStep === 'INTRODUCTION') {
       setCurrentStep('QUESTION1');
     } else if (currentStep === 'QUESTION1') {
-      setCurrentStep('QUESTION2');
-    }
+      setCurrentStep('QUESTION2');}
+      else if(currentStep === 'QUESTION2'){
+      setCurrentStep('INTRODUCTION');
+
+      }
+    
   };
 
   const handleFormSubmit = () => {
@@ -25,7 +29,7 @@ const OnboardingContent = () => {
     <div className="absolute bottom-0 w-full h-2/3 bg-white rounded-t-3xl flex flex-col items-start mt-8">
       {currentStep === 'INTRODUCTION' && <Introduction onNextClick={handleNextClick} />}
       {currentStep === 'QUESTION1' && <Question1 onNextClick={handleNextClick} />}
-      {currentStep === 'QUESTION2' && <Question2 onSubmit={handleFormSubmit} />}
+      {currentStep === 'QUESTION2' && <Question2 onNextClick={handleFormSubmit} />}
     </div>
   );
 };
