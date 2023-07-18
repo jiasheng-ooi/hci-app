@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@mantine/core';
 
 const Question1 = ({ onNextClick }) => {
@@ -19,7 +19,7 @@ const Question1 = ({ onNextClick }) => {
   const handleCrowdClick = (value) => {
     setPriceCrowdButton(value);
     console.log("Crowd :" + value)
-  }  
+  }
   const handleDistanceClick = (value) => {
     setPriceDistanceButton(value);
     console.log("Distance :" + value)
@@ -27,105 +27,97 @@ const Question1 = ({ onNextClick }) => {
 
 
   return (
-    <div className="w-full h-2/3 flex flex-col items-start mt-8">
+    <div className="w-full flex flex-col items-start my-8">
       {/* Content for Question 1 */}
-      <div className="font-bold ml-20 mt-16 text-left flex flex-col">
-        <span className="text-blue-700 text-3xl mb-10">Question 1</span>
-        <span className='text-gray-800 text-5xl font-bold mb-10 w-9/12'>Rank these factors when searching for a parking lot.</span>
+      <div className="font-bold mx-10 mt-2 text-left flex flex-col">
+        <span className="text-brand-blue text-xl">Question 1</span>
+        <span className='text-gray-800 text-4xl font-bold mt-4 leading-9'>Rank these factors when searching for a parking lot.</span>
       </div>
       <div>
-  <div className="ml-20 text-slate-500 font-bold text-2xl mb-3">Price</div>
-  <div className="flex mb-12">
-    <Button
-      className={`w-40 h-12 border-2 text-blue-600 text-xl border-blue-700 ml-20 mr-5 ${
-        activePriceButton === 1 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handlePriceClick(1)}
-    >
-      1
-    </Button>
-    <Button
-      className={`w-40 h-12 border-2 border-blue-700 text-blue-600 text-xl mr-5 ${
-        activePriceButton === 2 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handlePriceClick(2)}
-    >
-      2
-    </Button>
-    <Button
-      className={`w-40 h-12 text-blue-600 text-xl border-2 border-blue-700 ${
-        activePriceButton === 3 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handlePriceClick(3)}
-    >
-      3
-    </Button>
-  </div>
+        <div className="mx-10 text-slate-500 font-bold text-md mb-2 mt-8">Price</div>
+        <div className="flex mb-6">
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 ml-10 mr-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activePriceButton === 1 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handlePriceClick(1)}
+          >
+            1
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activePriceButton === 2 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handlePriceClick(2)}
+          >
+            2
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activePriceButton === 3 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handlePriceClick(3)}
+          >
+            3
+          </Button>
+        </div>
 
-  <div className="ml-20 text-slate-500 font-bold text-2xl mb-3">Crowd</div>
-  <div className="flex mb-12">
-    <Button
-      className={`w-40 h-12 border-2 text-blue-600 text-xl border-blue-700 ml-20 mr-5 ${
-        activeCrowdButton === 1 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleCrowdClick(1)}
-    >
-      1
-    </Button>
-    <Button
-      className={`w-40 h-12 border-2 border-blue-700 text-blue-600 text-xl mr-5 ${
-        activeCrowdButton === 2 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleCrowdClick(2)}
-    >
-      2
-    </Button>
-    <Button
-      className={`w-40 h-12 text-blue-600 text-xl border-2 border-blue-700 ${
-        activeCrowdButton === 3 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleCrowdClick(3)}
-    >
-      3
-    </Button>
-  </div>
+        <div className="mx-10 text-slate-500 font-bold text-lg mb-2">Crowd</div>
+        <div className="flex mb-6">
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 ml-10 mr-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeCrowdButton === 1 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleCrowdClick(1)}
+          >
+            1
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeCrowdButton === 2 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleCrowdClick(2)}
+          >
+            2
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeCrowdButton === 3 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleCrowdClick(3)}
+          >
+            3
+          </Button>
+        </div>
 
-  <div className="ml-20 text-slate-500 font-bold text-2xl mb-3">Distance</div>
-  <div className="flex ">
-    <Button
-      className={`w-40 h-12 border-2 text-blue-600 text-xl border-blue-700 ml-20 mr-5 ${
-        activeDistanceButton === 1 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleDistanceClick(1)}
-    >
-      1
-    </Button>
-    <Button
-      className={`w-40 h-12 border-2 border-blue-700 text-blue-600 text-xl mr-5 ${
-        activeDistanceButton === 2 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleDistanceClick(2)}
-    >
-      2
-    </Button>
-    <Button
-      className={`w-40 h-12 text-blue-600 text-xl border-2 border-blue-700 ${
-        activeDistanceButton === 3 ? 'bg-green-200' : 'bg-white'
-      }`}
-      onClick={() => handleDistanceClick(3)}
-    >
-      3
-    </Button>
-  </div>
+        <div className="mx-10 text-slate-500 font-bold text-lg mb-2">Distance</div>
+        <div className="flex mb-8">
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 ml-10 mr-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeDistanceButton === 1 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleDistanceClick(1)}
+          >
+            1
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeDistanceButton === 2 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleDistanceClick(2)}
+          >
+            2
+          </Button>
+          <Button
+            className={`w-24 h-8 border-2 text-brand-blue text-lg border-blue-700 mx-2 hover:text-white hover:bg-brand-dark-blue hover:border-brand-dark-blue ${activeDistanceButton === 3 ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
+              }`}
+            onClick={() => handleDistanceClick(3)}
+          >
+            3
+          </Button>
+        </div>
 
-  </div>
-
-      <Button
-        className="w-80 h-12 fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-blue-950 rounded-lg text-lg items-center justify-center transform transition-transform hover:scale-110 border-2 border-black"
-        onClick={handleFormSubmit}
-      >
-        Next
-      </Button>
+      </div>
+      <div className='mb-12 w-full text-center'>
+        <Button
+          className=" h-12 bg-brand-dark-blue text-white w-4/5 py-2 rounded-lg font-semibold text-lg"
+          onClick={handleFormSubmit}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

@@ -10,12 +10,13 @@ const OnboardingContent = () => {
     if (currentStep === 'INTRODUCTION') {
       setCurrentStep('QUESTION1');
     } else if (currentStep === 'QUESTION1') {
-      setCurrentStep('QUESTION2');}
-      else if(currentStep === 'QUESTION2'){
+      setCurrentStep('QUESTION2');
+    }
+    else if (currentStep === 'QUESTION2') {
       setCurrentStep('INTRODUCTION');
 
-      }
-    
+    }
+
   };
 
   const handleFormSubmit = () => {

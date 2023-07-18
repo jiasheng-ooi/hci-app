@@ -17,20 +17,23 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
+    
     <div
-      className="min-h-screen w-screen flex justify-center items-center bg-cover"
+      className=" flex justify-center items-center bg-cover"
       style={{
         backgroundImage: `url(${backgroundImage})`,
-        height: 1280,
+        height: '100vh',
       }}
     >
-      <div className="text-center flex flex-col items-center">
+             <div className="absolute inset-0 bg-black opacity-60"></div>
+
+      <div className="z-0 text-center flex flex-col items-center">
         <h1 className="text-5xl font-bold mb-6 text-white">ParkFinder.</h1>
         <Button
-          className="w-72 h-16 bg-white text-teal-950 text-xl font-semibold rounded-full text-lg flex items-center justify-center transform transition-transform hover:scale-110 hover: border-2 border-black"
+          className="w-64 h-14 bg-white text-brand-dark-blue font-semibold rounded-full text-lg flex items-center justify-center transform transition-transform hover:scale-110 hover: border-2 border-black"
           onClick={handleGoogleLogin}
         >
-          <FcGoogle className="mr-3 text-3xl" />
+          <FcGoogle className="mr-2 text-xl" />
           Log In with Google
         </Button>
       </div>

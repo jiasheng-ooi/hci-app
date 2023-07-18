@@ -211,7 +211,7 @@ const Drawer = () => {
                             </select>
                             {carparkInfo.slice(0, toggle.loadedRows).map((row, index) => {
                                 return (
-                                    <div key={index} className="flex py-4 px-8 hover:bg-gray-100 focus:bg-gray-200" onClick={() => handlePageChange(row.name)} >
+                                    <div key={index} className="flex py-4 px-8 hover:bg-gray-100 focus:bg-gray-200 border-b-2 border-gray-300" onClick={() => handlePageChange(row.name)} >
                                         <div className="w-2/5 h-28 pr-4">
                                             <img className='w-full h-full object-cover rounded-lg' src={row.img} alt={row.name} />
                                         </div>
@@ -221,7 +221,7 @@ const Drawer = () => {
                                             <div className='flex mb-1'>
                                                 <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                                     <LiaMapMarkerSolid className="text-lg mr-1" />
-                                                    <p className="text-sm font-medium">Distance</p>
+                                                    <p className="text-sm font-semibold">Distance</p>
                                                 </div>
                                                 <p className='font-semibold text-brand-dark-blue text-sm'>{row.distance} km</p>
                                             </div>
@@ -229,7 +229,7 @@ const Drawer = () => {
                                             <div className='flex mb-1'>
                                                 <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                                     <MdAttachMoney className="text-lg mr-1" />
-                                                    <p className="text-sm font-medium">Price</p>
+                                                    <p className="text-sm font-semibold">Price</p>
                                                 </div>
                                                 <p className='font-semibold text-brand-dark-blue text-sm'>S${row.price}/entry</p>
                                             </div>
@@ -237,7 +237,7 @@ const Drawer = () => {
                                             <div className='flex mb-1'>
                                                 <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                                     <BsPeople className="text-lg mr-1" />
-                                                    <p className="text-sm font-medium">Crowd</p>
+                                                    <p className="text-sm font-semibold">Crowd</p>
                                                 </div>
                                                 <p className={
                                                     row.crowd <= 3 ? 'font-semibold text-brand-green text-sm ' :
@@ -297,7 +297,7 @@ const Drawer = () => {
                                 <div className='flex mb-2'>
                                     <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                         <LiaMapMarkerSolid className="text-xl mr-1" />
-                                        <p className="text-md font-medium">Distance</p>
+                                        <p className="text-md font-semibold">Distance</p>
                                     </div>
                                     <p className='font-semibold text-brand-dark-blue text-md'>{selectedCarpark.distance}km</p>
                                 </div>
@@ -305,7 +305,7 @@ const Drawer = () => {
                                 <div className='flex mb-2'>
                                     <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                         <MdAttachMoney className="text-xl mr-1" />
-                                        <p className="text-md font-medium">Price</p>
+                                        <p className="text-md font-semibold">Price</p>
                                     </div>
                                     <p className='font-semibold text-brand-dark-bluetext-md'>
                                         {timeBasedPrice === 1 && "S$" + selectedCarpark.price + "/entry"}
@@ -316,7 +316,7 @@ const Drawer = () => {
                                 <div className='flex mb-2'>
                                     <div className="w-1/2 flex items-center mr-4 text-brand-gray">
                                         <BsPeople className="text-xl mr-1" />
-                                        <p className="text-md font-medium">Crowd</p>
+                                        <p className="text-md font-semibold">Crowd</p>
                                     </div>
                                     <p className={
                                         selectedCarpark.crowd <= 3 ? 'font-semibold text-brand-green text-md ' :

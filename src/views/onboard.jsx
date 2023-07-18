@@ -3,10 +3,10 @@ import backgroundImage from '../assets/intro.jpg'; // Update the import path bas
 import OnboardContent from '../components/OnboardContent.jsx'; // Import the OnboardingContent component
 
 const OnboardingPage = () => {
- 
+
   return (
-    <div className="min-h-screen w-screen relative bg-cover" style={{ backgroundImage: `url(${backgroundImage})`, height: 1280 }}>
-        <OnboardContent />
+    <div className="min-h-screen w-screen relative bg-cover" style={{ backgroundImage: `url(${backgroundImage})`, height: '100vh' }}>
+      <OnboardContent />
     </div>
   );
 };

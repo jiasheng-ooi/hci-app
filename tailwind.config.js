@@ -9,7 +9,7 @@ module.exports = {
         'brand-green': '#00CC66',
         'brand-red': '#E60000',
         'brand-orange': '#FF9933',
-        'brand-gray': '#B1BACE',
+        'brand-gray': '#586A8D',
         'brand-gray-blue': '#E6EEFF'
       },
       fontFamily: {
