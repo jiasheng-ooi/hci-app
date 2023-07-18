@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 
-const Question2 = () => {
+const Question2 = ({onBackClick}) => {
   const navigate = useNavigate();
   const handleFormSubmit = () => {
     // Perform any necessary logic with the form data for question 1
@@ -23,6 +23,7 @@ const Question2 = () => {
     <div className="w-full flex flex-col items-start my-8">
       {/* Content for Question 2 */}
       <div className="font-bold mx-10 mt-2 text-left flex flex-col">
+      <div className='font-semibold underline text-lg mb-2' onClick={() => onBackClick()} >Back</div>
         <span className="text-brand-blue text-xl">Question 2</span>
         <span className='text-gray-800 text-4xl font-bold mt-4 leading-9'>Please select your preferred types of parking facilities.</span>
         <div className="text-brand-gray italic font-semibold mt-3">Please select all that apply.</div>
@@ -45,7 +46,7 @@ const Question2 = () => {
           Multi-Story
         </Button>
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Underground') ? 'border-brand-dark-blue bg-brand-dark-blue text-white0' : 'bg-white'
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Underground') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
             }`}
           onClick={() => handleButtonClick('Underground')}
         >

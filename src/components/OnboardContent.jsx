@@ -19,6 +19,14 @@ const OnboardingContent = () => {
 
   };
 
+  const handleBackClick = () => {
+    if (currentStep === 'QUESTION1') {
+      setCurrentStep('INTRODUCTION');
+    } else if (currentStep === 'QUESTION2') {
+      setCurrentStep('QUESTION1');
+    }
+  };
+
   const handleFormSubmit = () => {
     // Perform any necessary logic with the form data
     // For example, you can send the data to an API, store it in state, etc.
@@ -29,8 +37,8 @@ const OnboardingContent = () => {
   return (
     <div className="absolute bottom-0 w-full h-2/3 bg-white rounded-t-3xl flex flex-col items-start mt-8">
       {currentStep === 'INTRODUCTION' && <Introduction onNextClick={handleNextClick} />}
-      {currentStep === 'QUESTION1' && <Question1 onNextClick={handleNextClick} />}
-      {currentStep === 'QUESTION2' && <Question2 onNextClick={handleFormSubmit} />}
+      {currentStep === 'QUESTION1' && <Question1 onNextClick={handleNextClick} onBackClick={handleBackClick} />}
+      {currentStep === 'QUESTION2' && <Question2 onNextClick={handleFormSubmit} onBackClick={handleBackClick}/>}
     </div>
   );
 };

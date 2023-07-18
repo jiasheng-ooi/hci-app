@@ -195,7 +195,8 @@ const Drawer = () => {
                         </div>
                         <div className=' my-4'>
                             <h4 className='mx-8 text-lg font-semibold text-brand-green'>Recommendations</h4>
-                            <select className='mt-2 mb-4 mx-8 bg-white border border border-brand-blue rounded-sm px-3 py-2 text-md  text-brand-dark-blue focus:outline-none focus:border-brand-blue' onChange={(e) => handleSort(e.target.value)}>
+                            <label className='ml-8 font-semibold text-brand-dark-blue'>Filter By:</label>
+                            <select className='mt-2 mb-4 ml-2  bg-white border border border-brand-blue rounded-sm px-3 py-2 text-md  text-brand-dark-blue focus:outline-none focus:border-brand-blue' onChange={(e) => handleSort(e.target.value)}>
                                 <option value="default">
                                     Default
                                 </option>

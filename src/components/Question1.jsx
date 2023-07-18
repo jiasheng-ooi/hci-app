@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@mantine/core';
 
-const Question1 = ({ onNextClick }) => {
+const Question1 = ({ onNextClick, onBackClick }) => {
   const handleFormSubmit = () => {
     // Perform any necessary logic with the form data for question 1
     onNextClick(); // Proceed to the next question
@@ -9,7 +9,6 @@ const Question1 = ({ onNextClick }) => {
   const [activePriceButton, setPriceActiveButton] = useState(null);
   const [activeCrowdButton, setPriceCrowdButton] = useState(null);
   const [activeDistanceButton, setPriceDistanceButton] = useState(null);
-
 
   const handlePriceClick = (value) => {
     setPriceActiveButton(value);
@@ -30,6 +29,7 @@ const Question1 = ({ onNextClick }) => {
     <div className="w-full flex flex-col items-start my-8">
       {/* Content for Question 1 */}
       <div className="font-bold mx-10 mt-2 text-left flex flex-col">
+        <div className='font-semibold underline text-lg mb-2' onClick={() => onBackClick()} >Back</div>
         <span className="text-brand-blue text-xl">Question 1</span>
         <span className='text-gray-800 text-4xl font-bold mt-4 leading-9'>Rank these factors when searching for a parking lot.</span>
       </div>
