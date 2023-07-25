@@ -1,6 +1,6 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import Map from '../components/map'
-import Drawer from '../components/drawer'
+import Drawer from '../components/drawer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaSearch } from 'react-icons/fa';
@@ -27,10 +27,15 @@ const ParkFinder = () => {
 
   return (
     <div>
-      <Drawer></Drawer>
-      {/* search */}
-      <div className="z-10 absolute top-10 left-0 right-0 flex items-center justify-center">
-        <div className="relative w-full mx-8 mt-4">
+      {/* Drawer & Bottom Bar */}
+      <div className="fixed bottom-0 w-full z-20">
+        <Drawer/>
+      </div>
+
+
+      <div className="z-10 absolute top-10 left-0 right-0 flex items-center justify-center shadow-2xl">
+        {/* Search */}
+        <div className="fixed w-5/6 mx-8 mt-12">
           <input
             type="text"
             placeholder="Search..."
@@ -42,6 +47,7 @@ const ParkFinder = () => {
       <ToastContainer />
 
       <Map></Map>
+
 
     </div>
   );

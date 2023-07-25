@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './views/login.jsx';
 import OnboardPage from './views/onboard.jsx';
 import ParkFinder from './views/parkfinder.jsx';
+import Profile from './views/profile.jsx';
 
 
 const App = () => {
@@ -13,6 +14,8 @@ const App = () => {
         <Route path="/" element= {<LoginPage/>}  />
         <Route path="/onboard" element={<OnboardPage/>} />
         <Route path="/parkfinder" element={<ParkFinder/>} />
+        <Route path="/profile" element={<Profile/>}/>
+
     </Routes>
   );
 };

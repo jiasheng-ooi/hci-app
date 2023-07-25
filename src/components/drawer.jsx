@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { useNavigate } from 'react-router-dom';
 
 // images
 import Carpark1 from '../assets/carpark1.jpeg'
@@ -12,9 +13,9 @@ import Carpark6 from '../assets/carpark6.jpeg'
 // react icons
 import { LiaMapMarkerSolid } from "react-icons/lia"
 import { MdAttachMoney } from "react-icons/md"
-import { BsPeople } from "react-icons/bs"
+import { BsPeople, BsFillPinMapFill, BsPersonCircle } from "react-icons/bs"
 import { IoIosArrowBack } from "react-icons/io"
-import { FaSearch } from 'react-icons/fa';
+import { AiOutlineCar } from "react-icons/ai"
 
 const Drawer = () => {
     // toggle state
@@ -48,6 +49,7 @@ const Drawer = () => {
 
     // toggle open close drawer
     const toggleDrawer = (anchor, open) => (event) => {
+        console.log("anchor and open", anchor, open)
         if (
             event &&
             event.type === 'keydown' &&
@@ -62,12 +64,10 @@ const Drawer = () => {
     const anchor = 'bottom';
 
     // drawer style
-    const drawerBleeding = 100;
     const drawerStyles = {
         '& .MuiDrawer-paper': {
             borderRadius: '25px 25px 0 0',
             boxShadow: 'none',
-
         },
     };
 
@@ -134,40 +134,33 @@ const Drawer = () => {
         }
     };
 
+    // navigate
+    const navigate = useNavigate() 
+
+    const toProfile = () => {
+        navigate('/profile');  
+      };
+
 
     return (
         <div>
-            <div
-                style={{
-                    paddingTop: '1rem',
-                    width: '100%',
-                    height: '6%',
-                    position: 'fixed',
-                    bottom: 0,
-                    [anchor]: 0,
-                    backgroundColor: 'white',
-                    cursor: 'pointer',
-                    zIndex: 999,
-                    border: '1px solid white',
-                    borderRadius: '25px 25px 0 0',
-                }}
-                onClick={toggleDrawer(anchor, true)}
-
-            >
-                <div className='mb-8 flex justify-center align-center'>
-                    <div className='align-center w-12 bg-gray-400 h-1.5 rounded-xl'>       </div></div>
-
+            {/* Bottom Bar */}
+            <div className="bg-brand-dark-blue flex h-full shadow-2xl">
+                <button onClick={toggleDrawer(anchor, true)} className="py-2 w-1/2 flex flex-col items-center justify-center text-gray-300 active:text-white active:bg-brand-blue">
+                    <AiOutlineCar className="text-xl" />
+                    Parking Options
+                </button>
+                <button onClick={toProfile} className="py-2 w-1/2 flex flex-col items-center justify-center text-gray-300 active:text-white active:bg-brand-blue">
+                    <BsPersonCircle className="text-xl" />
+                    Profile
+                </button>
             </div>
+
             <SwipeableDrawer
                 anchor={anchor}
                 open={toggle[anchor]}
                 onClose={toggleDrawer(anchor, false)}
                 onOpen={toggleDrawer(anchor, true)}
-                swipeAreaWidth={drawerBleeding}
-                disableSwipeToOpen={false}
-                ModalProps={{
-                    keepMounted: true, // Ensure the drawer is rendered even when closed
-                }}
                 sx={drawerStyles}
             >
                 {activePage === 'page1' && (
@@ -177,28 +170,17 @@ const Drawer = () => {
                         <div className='mx-8 mb-2 flex justify-center align-center'>
                             <div className='align-center w-12 bg-gray-400 h-1.5 rounded-xl'></div>
                         </div>
-                        {/* search */}
-                        <div className="flex items-center justify-center">
-                            <div className="relative w-full mx-8 mt-4">
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    className="w-full py-2 px-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                                <FaSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-brand-blue" />
-                            </div>
-                        </div>
                         {/* chosen destination */}
                         <div className='py-4 border-b-2 border-brand-gray-blue'>
                             <h5 className='mx-8 text-brand-gray my-2 font-medium text-lg'>Your chosen destination is</h5>
                             <h2 className="mx-8 font-bold text-3xl my-2 leading-tight">Singapore University of Technology & Design</h2>
                         </div>
                         <div className=' my-4'>
-                            <h4 className='mx-8 text-lg font-semibold text-brand-green'>Recommendations</h4>
+                            <h4 className='mx-8 text-lg font-semibold text-brand-green'>Your Parking Options</h4>
                             <label className='ml-8 font-semibold text-brand-dark-blue'>Filter By:</label>
                             <select className='mt-2 mb-4 ml-2  bg-white border border border-brand-blue rounded-sm px-3 py-2 text-md  text-brand-dark-blue focus:outline-none focus:border-brand-blue' onChange={(e) => handleSort(e.target.value)}>
                                 <option value="default">
-                                    Default
+                                    Recommended
                                 </option>
                                 <option value="distance">
                                     Distance
@@ -254,7 +236,7 @@ const Drawer = () => {
                                     </div>
                                 );
                             })}
-                            <div className='border-t-2 border-brand-gray-blue mt-4 pt-8 w-full text-center'>
+                            <div className=' mt-4 pt-8 w-full text-center'>
                                 {toggle.loadedRows < carparkInfo.length ? (
                                     <button className='bg-brand-dark-blue text-white w-5/6 py-2 rounded-lg font-semibold text-lg' onClick={handleLoadMore}>
                                         Load More

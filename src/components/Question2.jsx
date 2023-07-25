@@ -1,29 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Question2 = ({onBackClick}) => {
+const Question2 = ({ onBackClick }) => {
   const navigate = useNavigate();
-  const handleFormSubmit = () => {
-    // Perform any necessary logic with the form data for question 1
-    navigate('/parkfinder'); // Proceed to the next question
-  };
 
   const [activeButtons, setActiveButtons] = useState([]);
 
-  const handleButtonClick = (buttonNumber) => {
-    if (activeButtons.includes(buttonNumber)) {
-      setActiveButtons(activeButtons.filter((btn) => btn !== buttonNumber));
+  const handleFormSubmit = () => {
+    // Check if at least one button is selected
+    if (activeButtons.length > 0) {
+      // Perform any necessary logic with the form data for question 2
+      console.log(activeButtons)
+      navigate('/parkfinder'); // Proceed to the next question
     } else {
-      setActiveButtons([...activeButtons, buttonNumber]);
+      toast.error('Please select at least one parking facility', {
+        position: toast.POSITION.BOTTOM_RIGHT, // You can choose the position of the toast notification
+        autoClose: 3000, // The notification will automatically close after 3 seconds
+      })
     }
   };
+
+  const handleButtonClick = (buttonNumber) => {
+    setActiveButtons((prevButtons) => {
+      if (prevButtons.includes(buttonNumber)) {
+        return prevButtons.filter((btn) => btn !== buttonNumber);
+      } else {
+        return [...prevButtons, buttonNumber];
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log('Current activeButtons state:', activeButtons);
+
+    // Update button styles based on the active state
+    // Update button styles based on the active state
+    const buttons = document.querySelectorAll('.button-style');
+    buttons.forEach((button) => {
+      const buttonNumber = button.getAttribute('data-button-number');
+      if (activeButtons.includes(buttonNumber)) {
+        button.classList.add('active', 'border-brand-dark-blue', 'bg-brand-dark-blue', 'text-white');
+        button.classList.remove('border-brand-blue', 'bg-white', 'text-brand-blue');
+      } else {
+        button.classList.remove('active', 'border-brand-dark-blue', 'bg-brand-dark-blue', 'text-white');
+        button.classList.add('border-brand-blue', 'bg-white', 'text-brand-blue');
+      }
+    });
+  }, [activeButtons]);
+
 
   return (
     <div className="w-full flex flex-col items-start my-8">
       {/* Content for Question 2 */}
       <div className="font-bold mx-10 mt-2 text-left flex flex-col">
-      <div className='font-semibold underline text-lg mb-2' onClick={() => onBackClick()} >Back</div>
+        <div className='font-semibold underline text-lg mb-2' onClick={() => onBackClick()} >Back</div>
         <span className="text-brand-blue text-xl">Question 2</span>
         <span className='text-gray-800 text-4xl font-bold mt-4 leading-9'>Please select your preferred types of parking facilities.</span>
         <div className="text-brand-gray italic font-semibold mt-3">Please select all that apply.</div>
@@ -32,44 +65,47 @@ const Question2 = ({onBackClick}) => {
 
       <div className="w-4/5 mx-auto mt-6 flex flex-wrap gap-3 justify-start">
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Outdoor') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg button-style`}
           onClick={() => handleButtonClick('Outdoor')}
+          data-button-number="Outdoor"
         >
           Outdoor
         </Button>
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Multi-Story') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue button-style`}
           onClick={() => handleButtonClick('Multi-Story')}
+          data-button-number="Multi-Story"
+
         >
           Multi-Story
         </Button>
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Underground') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue button-style`}
           onClick={() => handleButtonClick('Underground')}
+          data-button-number="Underground"
+
         >
           Underground
         </Button>
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Valet') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue button-style`}
           onClick={() => handleButtonClick('Valet')}
+          data-button-number="Valet"
+
         >
           Valet
         </Button>
         <Button
-          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('Roadside') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue button-style`}
           onClick={() => handleButtonClick('Roadside')}
+          data-button-number="Roadside"
         >
           Roadside
         </Button>
         <Button
-          className={`fflex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue hover:bg-brand-dark-blue hover:text-white hover:border-brand-dark-blue ${activeButtons.includes('EV Charging Station') ? 'border-brand-dark-blue bg-brand-dark-blue text-white' : 'bg-white'
-            }`}
+          className={`flex-1 h-10 border-2 text-brand-blue text-lg border-brand-blue button-style`}
           onClick={() => handleButtonClick('EV Charging Station')}
+          data-button-number="EV Charging Station"
         >
           EV Charging Station
         </Button>
@@ -83,6 +119,7 @@ const Question2 = ({onBackClick}) => {
           Next
         </Button>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -9,12 +9,13 @@ const Map = () => {
     // Google Maps styling
     const containerStyle = {
         width: '100vw',
-        height: '100vh'
+        height: '85vh'
     };
 
     const mapOptions = {
         zoom: 16,
         center: { lat: 1.3413, lng: 103.9638 },
+        mapTypeControl: false,
         styles: [
             {
                 featureType: 'poi',
