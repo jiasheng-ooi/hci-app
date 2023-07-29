@@ -13,9 +13,14 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public'), // Directory where your static files are located
+    static: {
+      directory: path.join(__dirname, 'public'), // Directory where your static files are located
+    },
     port: 3000, // Port on which the dev server will run
     open: true, // Open the app in the default browser when the dev server starts
     historyApiFallback: true, // Enable history API fallback so that React Router can work correctly
+
+    // Add the setupMiddlewares option and set it to an empty array
+    setupMiddlewares: [],
   },
 };
