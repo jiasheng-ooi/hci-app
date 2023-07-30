@@ -13,7 +13,7 @@ const Map = () => {
     };
 
     const mapOptions = {
-        zoom: 16,
+        zoom: 15.5,
         center: { lat: 1.3413, lng: 103.9638 },
         mapTypeControl: false,
         styles: [
@@ -83,7 +83,7 @@ const Map = () => {
             options={mapOptions}
             onLoad={onLoad}
             onUnmount={onUnmount}
-            zoom={16}
+            zoom={15.5}
         >
             { /* Child components, such as markers, info windows, etc. */}
             {/* Main Marker */}
