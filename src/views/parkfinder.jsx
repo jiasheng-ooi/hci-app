@@ -14,7 +14,7 @@ const ParkFinder = () => {
   const [user_longitude, setUserLongitude] = useState(null);
   const isLocationAvailable = user_latitude !== null && user_longitude !== null;
 
-  const trigger_search = useRef(null);
+  const trigger_search = useRef(true);
 
   useEffect(() => {
     if (warnState) {
@@ -61,25 +61,20 @@ const ParkFinder = () => {
     if (event.key === 'Enter') {
       // The user pressed Enter, do something with the searchText value
       console.log('Search Text:', searchText);
+      trigger_search.current.findPlaces(); 
     }
-    // call search in the map component
-    // if (trigger_search.current) {
-    //   trigger_search.current.initiate_target_search(); // Replace 'doSomething' with the actual method name in your child component
-    // }
   };
 
   const handleButtonClick = (event) => {
     event.preventDefault();
-    console.log(`${searchText}`);
+    console.log(`Search Text: ${searchText}`);
     setSearchText(event.target.value)
     const searchBox = document.getElementById('search_box');
-    if (searchBox) {
-      searchBox.value = searchText; //Kelvin alert refill the textbox doesnt work 
+    // Kelvin trigger places search
+    if (trigger_search.current) {
+      trigger_search.current.findPlaces();
+      console.log("Children component called")
     }
-    //call search in the map component
-    // if (trigger_search.current) {
-    //   trigger_search.current.initiate_target_search(); // Replace 'doSomething' with the actual method name in your child component
-    // }
   };
     
 

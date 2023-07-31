@@ -1,58 +1,152 @@
 import { React, useState, useCallback, useEffect , useRef, useImperativeHandle, forwardRef} from 'react'
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Googleapiwrapper} from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow} from '@react-google-maps/api';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { renderToString } from 'react-dom/server';
+import { useGoogleMapsLoader } from './googleMapsConfig';
 
-const Map = ({user_latitude,user_longitude,search_text} , ref) => {
+const Map = forwardRef(({user_latitude,user_longitude,search_text} , ref) => {
 
     const [autocompleteService, setAutocompleteService] = useState(null);
     const [googleScriptLoaded, setGoogleScriptLoaded] = useState(false);
-    useEffect(() => { // Add the opening parenthesis here
-        // Load Google Places Autocomplete service script when the component mounts
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places`;
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
+    const [map, setMap] = useState(null);
+    const libraries  = ["places"];
+    const { isLoaded,loadError } = useGoogleMapsLoader();
+    const [target_coords , setTargetCoords] = useState(null)
+    const [target_relevant_details , setTargetRelevantDetails] = useState(null)
+    const [carparks_found, setCarparksFound] = useState(false); //Kelvin to load map DOM
+    const [navigation_in_progress , setNavigationInProgress] = useState(false)
+    const [directionsRenderer, setDirectionsRenderer] = useState(null)
+    // API keys
+    // const { isLoaded,loadError } = useJsApiLoader({
+    //     id: 'google-map-script',
+    //     googleMapsApiKey: "AIzaSyAhY1RECYWhzJtChjr0iNIAV5NUFlljv9g",// Kelvin's api for places
+    //     libraries :libraries
     
-        script.onload = () => {
-        // Create an instance of Google Places Autocomplete service
-        setAutocompleteService(new window.google.maps.places.AutocompleteService());
-        setGoogleScriptLoaded(true);
+    // })
+    // googleMapsApiKey: "AIzaSyBWvcQDLx5sbyKHzJCx6J3LEmAKVuhUHPI" faith api key
+
+    useEffect(() => { 
+        if (isLoaded && !loadError && !googleScriptLoaded) {
+            setAutocompleteService(new window.google.maps.places.AutocompleteService());
+            setGoogleScriptLoaded(true);
+            console.log('Scripts for places api loaded');
+          }
+        console.log("Updated target_coords:", target_coords);
+        console.log("Updated details" ,  target_relevant_details)
+        if (navigation_in_progress && target_coords != null) {
+            console.log("Clearing preexisting path")
+            clearNavigationPath()
+            plotNavigationPath()
+        } 
+        if (!navigation_in_progress && target_coords!= null){
+            plotNavigationPath()
+            setNavigationInProgress(true)
+        }
+
+    }, [isLoaded,loadError,target_coords,target_relevant_details]); 
+
+    // Kelvin expose function to the parent component to call it on button press
+    useImperativeHandle(ref, () => ({
+        findPlaces: findPlaces,
+      }));
+
+    const findPlaces = async () => {
+        console.log("findPlaces method triggered")
+        if (!googleScriptLoaded) {
+            console.log("map is ",map)
+            console.log('Google Maps API is not yet loaded.');
+            return;
+          }
+
+        const request = {
+            query: search_text,
+            fields: [
+            'name',
+            'geometry',
+            'photos',
+            'accessibility',
+            'websiteURI'
+            ],
+            language: 'en-US',
+            maxResults: 10,
+            region: 'sg',
+            strictBounds: true,
         };
-    }, []); // Make sure to provide an empty dependency array if this effect should run only once
+    
+        const service = new window.google.maps.places.PlacesService(map);
+        service.textSearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK && results && results.length > 0) {
+                console.log(results);
+                console.log(`${search_text} being queried`);
+    
+                // Handle the first result
+                const firstResult = results[0];
+                const target_latitude = firstResult.geometry.location.lat();
+                const target_longitude = firstResult.geometry.location.lng();
+                console.log("Latitude:", target_latitude);
+                console.log("Longitude:", target_longitude);
+    
+                const local_target_coords = `${target_latitude}, ${target_longitude}`;
+                setTargetCoords(local_target_coords);
+    
+                const local_relevant = {
+                    name: firstResult.name,
+                    location: firstResult.formatted_address
+                };
+    
+                setTargetRelevantDetails(local_relevant);
+            } else {
+                // Handle the error or empty results
+                console.log('No results found or an error occurred.');
+                setTargetCoords(null);
+                setTargetRelevantDetails(null);
+            }
+        });
+    };
+    
+    
+    async function plotNavigationPath() {
+        const userLatLng = new window.google.maps.LatLng(user_latitude, user_longitude);
+        const [targetLat, targetLng] = target_coords.split(',').map(coord => parseFloat(coord.trim()));
+        const targetLatLng = new window.google.maps.LatLng(targetLat, targetLng);
+      
+        // Create a DirectionsService object
+        const directionsService = new window.google.maps.DirectionsService();
+      
+        // Create a DirectionsRenderer object to display the route on the map
+        if (directionsRenderer == null){
+            const directionsRenderer = new window.google.maps.DirectionsRenderer();
+            setDirectionsRenderer(directionsRenderer)
+        }
+      
+        // Set the map for the DirectionsRenderer
+        directionsRenderer.setMap(map); // Make sure 'map' is the map instance you have in your component
+      
+        // Create a request object for the DirectionsService
+        const request = {
+          origin: userLatLng,
+          destination: targetLatLng,
+          travelMode: window.google.maps.TravelMode.DRIVING, // Specify the travel mode (DRIVING, WALKING, BICYCLING, TRANSIT)
+        };
+      
+        // Call the DirectionsService to calculate the route
+        directionsService.route(request, (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            // Display the route on the map using DirectionsRenderer
+            directionsRenderer.setDirections(result);
+          } else {
+            console.error('Error fetching directions:', status);
+          }
+        });
+      }
+
+      function clearNavigationPath() {
+        // Set the map property of the DirectionsRenderer to null
+        directionsRenderer.setMap(null);
+      }
 
 
-     // Kelvin trigger search if text input is given
-    // Expose the method to the parent component using the ref
-    // useImperativeHandle(ref, () => ({
-    //     initiate_target_search: () => {
-    //       console.log('Search Triggered');
-    //       if (googleScriptLoaded) {
-    //         // Use the google object from the global window object
-    //         const request = {
-    //           location: new window.google.maps.LatLng(user_latitude, user_longitude),
-    //           query: search_text,
-    //           radius: 5000, // Search radius in meters (adjust as needed)
-    //         };
-    
-    //         // Create an instance of the PlacesService
-    //         const placesService = new window.google.maps.places.PlacesService(document.createElement('div'));
-    
-    //         // Perform the text search
-    //         placesService.textSearch(request, (results, status) => {
-    //           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-    //             // Handle the search results here
-    //             console.log(results);
-    //           } else {
-    //             // Handle the error, e.g., no results found or API request error
-    //             console.error('Error fetching places:', status);
-    //           }
-    //         });
-    //       }
-    //     }
-    //   }));
 
 
     // Google Maps styling
@@ -62,7 +156,7 @@ const Map = ({user_latitude,user_longitude,search_text} , ref) => {
     };
     
     const mapOptions = {
-        zoom: 24,
+        zoom: 18,
         center: { lat: user_latitude, lng: user_longitude }, // Kelvin Change to initialise from user position
         mapTypeControl: false,
         styles: [
@@ -91,28 +185,7 @@ const Map = ({user_latitude,user_longitude,search_text} , ref) => {
         ],
     };
 
-    // API keys
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyBWvcQDLx5sbyKHzJCx6J3LEmAKVuhUHPI"
-    })
-
-    const [map, setMap] = useState(null)
-
-    const onLoad = useCallback(function callback(map) {
-        // This is just an example of getting and using the map instance!!! don't just blindly copy!
-        const bounds = new window.google.maps.LatLngBounds(mapOptions.center);
-        map.fitBounds(bounds);
-
-        setMap(map)
-    }, [])
-
-    const onUnmount = useCallback(function callback(map) {
-        setMap(null)
-    }, [])
-
     // marker styling
-
     const user_marker = [
 
         // User Starting Position
@@ -130,9 +203,25 @@ const Map = ({user_latitude,user_longitude,search_text} , ref) => {
 
     ];
 
-    const [selectedMarker, setSelectedMarker] = useState(null);
     
 
+    
+
+    const onLoad = useCallback(function callback(map) {
+        // This is just an example of getting and using the map instance!!! don't just blindly copy!
+        const bounds = new window.google.maps.LatLngBounds(mapOptions.center);
+        map.fitBounds(bounds);
+        console.log("map loaded")
+        setMap(map)
+        setCarparksFound(true)
+    }, [isLoaded,map,user_marker])
+
+    const onUnmount = useCallback(function callback(map) {
+        setMap(null)
+    }, [])
+
+    const [selectedMarker, setSelectedMarker] = useState(null);
+    
     const handleMarkerClick = (marker) => {
         setSelectedMarker(marker);
     };
@@ -141,41 +230,39 @@ const Map = ({user_latitude,user_longitude,search_text} , ref) => {
         <GoogleMap
             mapContainerStyle={containerStyle}
             options={mapOptions}
+            center = {mapOptions.center}
             onLoad={onLoad}
             onUnmount={onUnmount}
-            zoom={16}
         >
-            { /* Child components, such as markers, info windows, etc. */}
-            {/* Main Marker */}
-            {user_marker.map((marker, index) => (
-                <Marker
-                    key={index}
-                    position={marker.position}
-                    onClick={() => handleMarkerClick(marker)}
-                    icon={{
-                        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
-                            renderToString(
-                                <IconContext.Provider value={{ color: marker.color }}>
-                                    <FaMapMarkerAlt />
-                                </IconContext.Provider>
-                            )
-                        )}`,
-                        scaledSize: new window.google.maps.Size(35, 35),
-                    }}
-                />
-
-            ))}
-            {selectedMarker && (
-                <InfoWindow
-                    position={selectedMarker.position}
-                    onCloseClick={() => setSelectedMarker(null)}
-                >
-                    <div className='font-medium text-brand-dark-blue'>{selectedMarker.label}</div>
-                </InfoWindow>
-            )}
+           {user_marker.map((marker, index) => (
+        <Marker
+          key={index}
+          position={marker.position}
+          onClick={() => handleMarkerClick(marker)}
+          icon={{
+            url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(
+              renderToString(
+                <IconContext.Provider value={{ color: marker.color }}>
+                  <FaMapMarkerAlt />
+                </IconContext.Provider>
+              )
+            )}`,
+            scaledSize: new window.google.maps.Size(35, 35),
+          }}
+        />
+      ))}
+      
+      {selectedMarker && (
+        <InfoWindow
+          position={selectedMarker.position}
+          onCloseClick={() => setSelectedMarker(null)}
+        >
+          <div className='font-medium text-brand-dark-blue'>{selectedMarker.label}</div>
+        </InfoWindow>
+      )}
         </GoogleMap>
     ) : <></>;
 
-};
+});
 
 export default Map;
