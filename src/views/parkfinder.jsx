@@ -4,6 +4,7 @@ import Drawer from '../components/drawer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaSearch } from 'react-icons/fa';
+import axios from 'axios'; // Import axios library
 
 
 
@@ -13,8 +14,50 @@ const ParkFinder = () => {
   const [user_latitude, setUserLatitude] = useState(null);
   const [user_longitude, setUserLongitude] = useState(null);
   const isLocationAvailable = user_latitude !== null && user_longitude !== null;
-
   const trigger_search = useRef(true);
+  const [token, setToken] = useState(null); //URA Api
+
+  useEffect(() => {
+    // Get the token and user's location when the page opens
+    const retrieveTokenAndLocation = async () => {
+      const accessKey = "03e56fbb-a5e7-4dd9-8573-ddd18abf04a5";
+      const url = "https://www.ura.gov.sg/uraDataService/insertNewToken.action";
+
+      try {
+        const response = await axios.post(url, {}, {
+          headers: {
+            "AccessKey": accessKey
+          }
+        });
+
+        // Assuming the response contains a property named "Result" with the token value
+        const token = response.data.Result;
+        setToken(token);
+        console.log("Token:", token); // Display the token in the console
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              setUserLatitude(latitude);
+              setUserLongitude(longitude);
+              console.log(`latitude is ${latitude}, longitude is ${longitude}`);
+            },
+            (error) => {
+              console.error('Error getting user location:', error);
+            }
+          );
+        } else {
+          console.error('Geolocation is not supported by this browser.');
+        }
+      } catch (error) {
+        console.error("Error retrieving token:", error.message);
+        setToken(null);
+      }
+    };
+
+    retrieveTokenAndLocation();
+  }, []); 
 
   useEffect(() => {
     if (warnState) {
@@ -110,7 +153,7 @@ const ParkFinder = () => {
       </div>
       <ToastContainer />
       {/* This ensures the user coords are available before loading */}
-      {isLocationAvailable && (
+      {isLocationAvailable && token &&(
         <Map user_latitude={user_latitude} user_longitude={user_longitude} search_text={searchText} ref = {trigger_search}/>
       )}
     </div>
