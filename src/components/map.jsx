@@ -16,7 +16,7 @@ const Map = forwardRef(({user_latitude,user_longitude,search_text} , ref) => {
     const [target_relevant_details , setTargetRelevantDetails] = useState(null)
     const [carparks_found, setCarparksFound] = useState(false); //Kelvin to load map DOM
     const [navigation_in_progress , setNavigationInProgress] = useState(false)
-    const [directionsRenderer, setDirectionsRenderer] = useState(null)
+    let [directionsRenderer, setDirectionsRenderer] = useState(null)
     // API keys
     // const { isLoaded,loadError } = useJsApiLoader({
     //     id: 'google-map-script',
@@ -34,6 +34,7 @@ const Map = forwardRef(({user_latitude,user_longitude,search_text} , ref) => {
           }
         console.log("Updated target_coords:", target_coords);
         console.log("Updated details" ,  target_relevant_details)
+
         if (navigation_in_progress && target_coords != null) {
             console.log("Clearing preexisting path")
             clearNavigationPath()
@@ -116,12 +117,16 @@ const Map = forwardRef(({user_latitude,user_longitude,search_text} , ref) => {
       
         // Create a DirectionsRenderer object to display the route on the map
         if (directionsRenderer == null){
-            const directionsRenderer = new window.google.maps.DirectionsRenderer();
+            directionsRenderer = new window.google.maps.DirectionsRenderer();
             setDirectionsRenderer(directionsRenderer)
+            directionsRenderer.setMap(map); // Make sure 'map' is the map instance you have in your component
+        }
+        else{
+          directionsRenderer.setMap(map); // Make sure 'map' is the map instance you have in your component
         }
       
         // Set the map for the DirectionsRenderer
-        directionsRenderer.setMap(map); // Make sure 'map' is the map instance you have in your component
+        
       
         // Create a request object for the DirectionsService
         const request = {
