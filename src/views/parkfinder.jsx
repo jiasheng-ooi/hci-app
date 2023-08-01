@@ -110,7 +110,7 @@ const ParkFinder = () => {
 
   const handleButtonClick = (event) => {
     event.preventDefault();
-    console.log(`Search Text: ${searchText}`);
+    console.log(`Seardch Text: ${searchText}`);
     setSearchText(event.target.value)
     const searchBox = document.getElementById('search_box');
     // Kelvin trigger places search
