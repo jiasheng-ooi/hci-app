@@ -22,7 +22,7 @@ const ParkFinder = () => {
     const retrieveTokenAndLocation = async () => {
       const accessKey = "03e56fbb-a5e7-4dd9-8573-ddd18abf04a5";
       const url = "https://www.ura.gov.sg/uraDataService/insertNewToken.action";
-
+      console.log("Test")
       try {
         const response = await axios.post(url, {}, {
           headers: {
